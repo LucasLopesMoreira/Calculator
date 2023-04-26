@@ -7,7 +7,12 @@ public class Calculator {
 
         System.out.print("Enter the second number: ");
 
-        
+        System.out.print("Enter the operation (+, -, *, /): ");
+        char operation = scanner.next().charAt(0);
+
+        double result = performOperation(number1, number2, operation);
+
+        System.out.println("The result is: " + result);
 
     }
 }
