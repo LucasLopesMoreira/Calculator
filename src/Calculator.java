@@ -28,5 +28,42 @@ public class Calculator {
         System.out.println("The result is: " + result);
     }
 
+    /**
+     * Perform the arithmetic operation on the given numbers.
+     *
+     * @param number1   The first number.
+     * @param number2   The second number.
+     * @param operation The operation to be performed (+, -, *, /).
+     * @return The result of the operation.
+     */
+    public static double performOperation(double number1, double number2, char operation) {
+        double result = 0;
+
+        switch (operation) {
+            case '+':
+                result = number1 + number2;
+                break;
+            case '-':
+                result = number1 - number2;
+                break;
+            case '*':
+                result = number1 * number2;
+                break;
+            case '/':
+                if (number2 != 0) {
+                    result = number1 / number2;
+                } else {
+                    System.out.println("Error: Division by zero is not allowed.");
+                    System.exit(1);
+                }
+                break;
+            default:
+                System.out.println("Error: Invalid operation. Please use +, -, *, or /.");
+                System.exit(1);
+        }
+
+        return result;
+    }
+
     
 }
