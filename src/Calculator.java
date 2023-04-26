@@ -8,62 +8,52 @@ import java.util.Scanner;
 public class Calculator {
 
     public static void main(String[] args) {
-        // Create a Scanner object to read user input
-        Scanner scanner = new Scanner(System.in);
+        // Create an InputHandler instance to handle user input
+        InputHandler inputHandler = new InputHandler();
 
         // Prompt the user to enter two numbers
-        System.out.print("Enter the first number: ");
-        double number1 = scanner.nextDouble();
-        System.out.print("Enter the second number: ");
-        double number2 = scanner.nextDouble();
+        double number1 = inputHandler.readDouble("Enter the first number: ");
+        double number2 = inputHandler.readDouble("Enter the second number: ");
 
         // Prompt the user to enter an operation
-        System.out.print("Enter the operation (+, -, *, /): ");
-        char operation = scanner.next().charAt(0);
+        char operationSymbol = inputHandler.readOperationSymbol("Enter the operation (+, -, *, /): ");
 
-        // Call the performOperation method to get the result
-        double result = performOperation(number1, number2, operation);
+        // Instantiate the appropriate operation class
+        operation operation = createOperation(operationSymbol);
+
+        // Call the perform method of the operation instance to get the result
+        double result = operation.perform(number1, number2);
 
         // Display the result
         System.out.println("The result is: " + result);
     }
 
     /**
-     * Perform the arithmetic operation on the given numbers.
+     * Create an instance of the appropriate operation class based on the given symbol.
      *
-     * @param number1   The first number.
-     * @param number2   The second number.
-     * @param operation The operation to be performed (+, -, *, /).
-     * @return The result of the operation.
+     * @param operationSymbol The operation symbol (+, -, *, /).
+     * @return An instance of the corresponding operation class.
      */
-    public static double performOperation(double number1, double number2, char operation) {
-        double result = 0;
+    public static operation createOperation(char operationSymbol) {
+        operation operation;
 
-        switch (operation) {
+        switch (operationSymbol) {
             case '+':
-                result = number1 + number2;
+                operation = new Addition();
                 break;
             case '-':
-                result = number1 - number2;
+                operation = new Subtraction();
                 break;
             case '*':
-                result = number1 * number2;
+                operation = new Multiplication();
                 break;
             case '/':
-                if (number2 != 0) {
-                    result = number1 / number2;
-                } else {
-                    System.out.println("Error: Division by zero is not allowed.");
-                    System.exit(1);
-                }
+                operation = new Division();
                 break;
             default:
-                System.out.println("Error: Invalid operation. Please use +, -, *, or /.");
-                System.exit(1);
+                throw new IllegalArgumentException("Invalid operation. Please use +, -, *, or /.");
         }
 
-        return result;
+        return operation;
     }
-
-    
 }
